@@ -11,19 +11,16 @@ function Profile() {
   const { profile, message, loading } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.auth);
 
-  // Fetch profile from API on mount
   useEffect(() => {
     dispatch(fetchProfile());
   }, [dispatch]);
 
-  // Personal info form state — seeded from profile once loaded
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
 
-  // Sync form state when profile loads
   useEffect(() => {
     if (profile) {
       setFirstName(profile.firstName || "");
@@ -34,13 +31,10 @@ function Profile() {
     }
   }, [profile]);
 
-  // Change password form state
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-  // Show delete confirmation
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
 
   const handleUpdateProfile = (e) => {
@@ -52,7 +46,6 @@ function Profile() {
   const handleChangePassword = (e) => {
     e.preventDefault();
     setPasswordError("");
-
     if (!currentPassword || !newPassword || !confirmPassword) {
       setPasswordError("All password fields are required.");
       return;
@@ -65,7 +58,6 @@ function Profile() {
       setPasswordError("New password must be at least 6 characters.");
       return;
     }
-
     dispatch(changePasswordAsync({ currentPassword, newPassword }));
     setCurrentPassword("");
     setNewPassword("");
@@ -74,12 +66,10 @@ function Profile() {
   };
 
   const handleDeleteAccount = () => {
-    // Mock delete — just log out
     dispatch(logout());
     navigate("/");
   };
 
-  // Show spinner while profile is loading
   if (loading && !profile) {
     return (
       <div className="loading-container" style={{ paddingTop: "6rem" }}>
@@ -89,7 +79,6 @@ function Profile() {
     );
   }
 
-  // Not logged in / no profile yet
   if (!profile && !user) {
     navigate("/login");
     return null;
@@ -99,11 +88,11 @@ function Profile() {
   const displayEmail = user?.email || profile?.email || "";
 
   return (
-    <div style={{ paddingTop: "6rem", minHeight: "100vh" }}>
+    <div className="profile-page" style={{ paddingTop: "6rem", paddingBottom: "4rem", minHeight: "100vh" }}>
       <Container>
         <Row className="justify-content-center">
           <Col md={8}>
-            {/* Success message */}
+
             {message && (
               <div className="alert-custom alert-success-custom fade-in-up">
                 ✅ {message}
@@ -111,32 +100,35 @@ function Profile() {
             )}
 
             {/* Profile Header */}
-            <div
-              className="reservation-card mb-4 fade-in-up"
-              style={{ textAlign: "center" }}
-            >
-              <div
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: "50%",
-                  background: "var(--gradient-primary)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "0 auto 1rem",
-                  fontSize: "2rem",
-                  color: "white",
-                  fontWeight: 800,
-                }}
-              >
-                {displayName.charAt(0).toUpperCase()}
+            <div className="reservation-card mb-4 fade-in-up profile-header-card">
+              <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+                <div
+                  className="profile-avatar"
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: "50%",
+                    background: "var(--primary)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "2rem",
+                    color: "white",
+                    fontWeight: 800,
+                    flexShrink: 0,
+                  }}
+                >
+                  {displayName.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <h3 style={{ fontWeight: 700, marginBottom: "0.15rem", borderBottom: "none", paddingBottom: 0 }}>
+                    {displayName}
+                  </h3>
+                  <p style={{ color: "var(--text-secondary)", margin: 0, fontSize: "0.9rem" }}>
+                    {displayEmail}
+                  </p>
+                </div>
               </div>
-              <h3 style={{ fontWeight: 700 }}>{displayName}</h3>
-              <p style={{ color: "var(--text-secondary)", margin: 0 }}>
-                {displayEmail}
-              </p>
-
             </div>
 
             {/* Personal Info Form */}
@@ -166,20 +158,20 @@ function Profile() {
                       />
                     </div>
                   </Col>
-                </Row>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email address"
-                  />
-                </div>
-                <Row>
                   <Col md={6}>
                     <div className="form-group">
-                      <label>Phone</label>
+                      <label>Email address</label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email address"
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <label>Phone number</label>
                       <input
                         type="text"
                         value={phone}
@@ -188,27 +180,32 @@ function Profile() {
                       />
                     </div>
                   </Col>
-                  <Col md={6}>
+                  <Col md={12}>
                     <div className="form-group">
-                      <label>City</label>
+                      <label>City / location</label>
                       <input
                         type="text"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        placeholder="City"
+                        placeholder="e.g. Muscat, Oman"
                       />
                     </div>
                   </Col>
                 </Row>
-                <Button className="btn-reserve" type="submit">
-                  Save Changes
-                </Button>
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem" }}>
+                  <Button className="btn-clear-filter" type="button" style={{ width: "auto", padding: "0.6rem 1.5rem" }}>
+                    Cancel
+                  </Button>
+                  <Button className="btn-reserve" type="submit" style={{ width: "auto", padding: "0.6rem 1.5rem" }}>
+                    Save changes
+                  </Button>
+                </div>
               </form>
             </div>
 
             {/* Change Password */}
             <div className="reservation-card mb-4 fade-in-up fade-in-up-delay-2">
-              <h3>🔒 Change Password</h3>
+              <h3>🔒 Change password</h3>
 
               {passwordError && (
                 <div className="alert-custom alert-danger-custom">
@@ -217,67 +214,74 @@ function Profile() {
               )}
 
               <form onSubmit={handleChangePassword}>
-                <div className="form-group">
-                  <label>Current Password</label>
-                  <input
-                    type="password"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    placeholder="Enter current password"
-                  />
+                <Row>
+                  <Col md={4}>
+                    <div className="form-group">
+                      <label>Current password</label>
+                      <input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        placeholder="Enter current password"
+                      />
+                    </div>
+                  </Col>
+                  <Col md={4}>
+                    <div className="form-group">
+                      <label>New password</label>
+                      <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Enter new password"
+                      />
+                    </div>
+                  </Col>
+                  <Col md={4}>
+                    <div className="form-group">
+                      <label>Confirm new password</label>
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm new password"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem" }}>
+                  <Button className="btn-clear-filter" type="button" style={{ width: "auto", padding: "0.6rem 1.5rem" }}>
+                    Cancel
+                  </Button>
+                  <Button className="btn-reserve" type="submit" style={{ width: "auto", padding: "0.6rem 1.5rem" }}>
+                    Update password
+                  </Button>
                 </div>
-                <div className="form-group">
-                  <label>New Password</label>
-                  <input
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Enter new password"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Confirm New Password</label>
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm new password"
-                  />
-                </div>
-                <Button className="btn-reserve" type="submit">
-                  Change Password
-                </Button>
               </form>
             </div>
 
-            {/* Delete Account */}
+            {/* Danger Zone */}
             <div
-              className="reservation-card mb-4 fade-in-up fade-in-up-delay-3"
-              style={{ borderColor: "rgba(255, 71, 87, 0.3)" }}
+              className="reservation-card mb-4 fade-in-up fade-in-up-delay-3 danger-zone-card"
+              style={{ borderColor: "rgba(255, 71, 87, 0.3)", background: "rgba(220, 53, 69, 0.04)" }}
             >
-              <h3 style={{ color: "#ff4757" }}>⚠️ Delete Account</h3>
+              <h3 style={{ color: "#ff4757", borderBottomColor: "rgba(255, 71, 87, 0.15)" }}>
+                ⚠️ Danger zone
+              </h3>
               <p style={{ color: "var(--text-secondary)", marginBottom: "1rem" }}>
-                Once you delete your account, there is no going back. Please be
-                certain.
+                Deleting your account is permanent. All your data, reviews and favourites will be removed and cannot be recovered.
               </p>
 
               {showDeleteWarning ? (
                 <div>
-                  <div
-                    className="alert-custom alert-danger-custom"
-                    style={{ marginBottom: "1rem" }}
-                  >
-                    ⚠️ This will permanently delete your account and all your
-                    data. This action cannot be undone!
+                  <div className="alert-custom alert-danger-custom" style={{ marginBottom: "1rem" }}>
+                    ⚠️ This will permanently delete your account and all your data. This action cannot be undone!
                   </div>
                   <div className="d-flex gap-2">
-                    <Button className="btn-cancel" onClick={handleDeleteAccount}>
+                    <Button className="btn-danger" onClick={handleDeleteAccount}>
                       Yes, Delete My Account
                     </Button>
-                    <Button
-                      className="btn-clear-filter"
-                      onClick={() => setShowDeleteWarning(false)}
-                    >
+                    <Button className="btn-clear-filter" onClick={() => setShowDeleteWarning(false)}>
                       Cancel
                     </Button>
                   </div>
@@ -286,11 +290,13 @@ function Profile() {
                 <Button
                   className="btn-cancel"
                   onClick={() => setShowDeleteWarning(true)}
+                  style={{ width: "auto", background: "rgba(220, 53, 69, 0.1)", color: "#ff4757", borderColor: "rgba(255, 71, 87, 0.3)" }}
                 >
-                  Delete Account
+                  Delete my account
                 </Button>
               )}
             </div>
+
           </Col>
         </Row>
       </Container>

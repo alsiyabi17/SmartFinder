@@ -36,10 +36,10 @@ function Restaurants() {
   }
 
   return (
-    <div style={{ paddingTop: "5rem", minHeight: "100vh" }}>
+    <div className="restaurants-bg" style={{ paddingTop: "5rem", minHeight: "100vh" }}>
       <Container>
         {/* Search Bar at top */}
-        <Row className="mb-4 justify-content-center" style={{ paddingTop: "1rem" }}>
+        <Row className="mb-4 justify-content-center" style={{ paddingTop: "2rem" }}>
           <Col md={8}>
             <SearchBar
               value={searchTerm}

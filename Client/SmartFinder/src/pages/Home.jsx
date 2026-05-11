@@ -1,17 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Input, Button } from "reactstrap";
-import { setFilters, applyFilters, setSearchTerm } from "../features/restaurantSlice";
-import { mockLocations } from "../services/mockData";
+import { setFilters, applyFilters, setSearchTerm, fetchRestaurants } from "../features/restaurantSlice";
 
 function Home() {
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("All Locations");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+  const { restaurants } = useSelector((state) => state.restaurants);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(fetchRestaurants());
+  }, [dispatch]);
+
+  // Extract unique locations from restaurants
+  const dbLocations = [...new Set(restaurants.map((r) => r.location).filter(Boolean))];
 
   const handleSearch = () => {
+    // Redirect to login if not logged in
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
     // Set search and location in Redux, then navigate to restaurants page
     dispatch(setSearchTerm(search));
     dispatch(setFilters({ location }));
@@ -23,20 +37,7 @@ function Home() {
     <div>
       {/* Hero Section */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", alignItems: "center" }}>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: 0.15,
-          }}
-        />
+        <div className="hero-bg-overlay" />
 
         <Container style={{ position: "relative", zIndex: 1 }}>
           <Row className="justify-content-center text-center">
@@ -64,7 +65,8 @@ function Home() {
                     padding: "0.75rem 1rem",
                   }}
                 >
-                  {mockLocations.map((loc) => (
+                  <option value="All Locations">📍 All Locations</option>
+                  {dbLocations.map((loc) => (
                     <option key={loc} value={loc}>
                       📍 {loc}
                     </option>
