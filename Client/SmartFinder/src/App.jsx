@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import './App.css'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
-import HomePage from './pages/HomePage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import RestaurantListPage from './pages/RestaurantListPage'
-import RestaurantDetailPage from './pages/RestaurantDetailPage'
-import ProfilePage from './pages/ProfilePage'
-import AdminDashboard from './admin/AdminDashboard'
-import ManageRestaurants from './admin/ManageRestaurants'
-import ManageMeals from './admin/ManageMeals'
+import HomePage from './pages/Home.jsx'
+import LoginPage from './pages/Login.jsx'
+import RestaurantDetailPage from './pages/RestaurantDetails.jsx'
+import ProfilePage from './pages/Profile.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
+import Register from './pages/Register.jsx'
+import RestaurantsPage from './pages/Restaurants.jsx'
 
 function App() {
   return (
@@ -18,9 +17,10 @@ function App() {
       <Routes>
         <Route path="/"               element={<HomePage />} />
         <Route path="/login"          element={<LoginPage />} />
-        <Route path="/register"       element={<RegisterPage />} />
-        <Route path="/restaurants"    element={<RestaurantListPage />} />
+        <Route path="/register"       element={<Register />} />
+        <Route path="/restaurants"    element={<RestaurantsPage />} />
         <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
+        <Route path="/restaurant/:id"  element={<RestaurantDetailPage />} />
 
         {/* Protected — must be logged in */}
         <Route path="/profile" element={
@@ -33,16 +33,6 @@ function App() {
         <Route path="/admin" element={
           <ProtectedRoute adminOnly>
             <AdminDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/restaurants" element={
-          <ProtectedRoute adminOnly>
-            <ManageRestaurants />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin/meals" element={
-          <ProtectedRoute adminOnly>
-            <ManageMeals />
           </ProtectedRoute>
         } />
       </Routes>

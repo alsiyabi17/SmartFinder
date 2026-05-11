@@ -1,184 +1,538 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* ==========================================================================
+   SmartFinder - Additional Component Styles
+   ========================================================================== */
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+/* Auth Pages */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--bg-primary);
 }
 
-.hero {
+.auth-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.auth-link a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.auth-link a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Auth card icon decoration */
+.auth-card::after {
+  content: '🍴';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  opacity: 0.15;
+}
+
+/* ==========================================================================
+   Search Bar Component
+   ========================================================================== */
+
+.nav-search-container {
   position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
   display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  transition: all 0.3s ease;
 }
 
-#next-steps {
+.nav-search-container:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+}
+
+.search-icon {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.nav-search-container input,
+.nav-search-container .form-control {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.6rem 0.5rem !important;
+  font-size: 0.95rem;
+}
+
+.nav-search-container input:focus {
+  box-shadow: none !important;
+}
+
+/* ==========================================================================
+   Filter Sidebar
+   ========================================================================== */
+
+.filter-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.filter-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.filter-group {
+  margin-bottom: 1.25rem;
+}
+
+.filter-group > label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-checkbox {
   display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
 }
 
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+.filter-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
 }
 
-#next-steps ul {
+.filter-radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filter-radio label {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-radio label:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.filter-radio label.active {
+  background: rgba(255, 140, 0, 0.15);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.filter-section .btn-apply-filter {
+  margin-bottom: 0.5rem;
+}
+
+.filter-section .btn-clear-filter {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   Restaurant Card Extras
+   ========================================================================== */
+
+.card-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.service-tag {
+  display: inline-block;
+  background: rgba(255, 140, 0, 0.08);
+  color: var(--primary);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 140, 0, 0.15);
+  text-transform: capitalize;
+}
+
+.rating-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-left: 0.25rem;
+}
+
+/* ==========================================================================
+   Dashboard Page
+   ========================================================================== */
+
+.dashboard-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  background: var(--bg-sidebar);
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 0 1.5rem;
+  margin-top: 4rem;
+}
+
+.footer-brand {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.footer-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.footer-links {
   list-style: none;
   padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
+  margin: 0;
+}
 
-  .logo {
-    height: 18px;
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links li a {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.footer-links li a:hover {
+  color: var(--primary);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Reactstrap Modal Overrides (Admin Delete Confirm)
+   ========================================================================== */
+
+.modal-content {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg) !important;
+  color: var(--text-primary) !important;
+}
+
+.modal-header {
+  border-color: var(--border-color) !important;
+}
+
+.modal-header .btn-close {
+  filter: invert(1) grayscale(1) brightness(2);
+}
+
+.modal-footer {
+  border-color: var(--border-color) !important;
+}
+
+/* ==========================================================================
+   Reactstrap Form Overrides (Admin)
+   ========================================================================== */
+
+.form-check-label {
+  color: var(--text-primary) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Select dropdown arrow fix for dark theme */
+select, .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23A0AEC0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.75rem center !important;
+  background-size: 16px 12px !important;
+}
+
+/* Option elements in dark dropdowns */
+option {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .filter-section {
+    position: static;
+    margin-bottom: 1.5rem;
   }
 
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
+  .detail-hero {
+    height: 250px !important;
   }
 
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
+  .detail-hero-overlay h1 {
+    font-size: 1.75rem !important;
+  }
 
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
+  .auth-card {
+    margin: 1rem;
+    padding: 1.5rem !important;
+  }
 
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
+  .navbar-custom .container {
+    padding: 0 1rem;
   }
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+/* ==========================================================================
+   Card image fallback (when image fails to load)
+   ========================================================================== */
+
+.card-img-container img {
+  background: var(--bg-input);
 }
 
-.ticks {
-  position: relative;
+/* Smooth page transitions */
+.detail-page,
+.dashboard-page,
+.auth-page {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   Profile Page - Enhanced Styling
+   ========================================================================== */
+
+.profile-page {
+  background: var(--bg-primary);
+}
+
+/* Profile header card */
+.profile-header-card {
+  text-align: left !important;
+}
+
+.profile-header-card h3 {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Profile avatar glow */
+.profile-avatar {
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.35);
+}
+
+/* Profile form section titles */
+.reservation-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Profile form buttons */
+.reservation-card .btn-reserve {
+  width: auto;
+  padding: 0.6rem 2rem;
+  margin-top: 0.5rem;
+}
+
+.reservation-card .btn-cancel {
+  width: auto;
+  padding: 0.6rem 2rem;
+}
+
+/* Danger zone card */
+.danger-zone-card h3 {
+  border-bottom-color: rgba(255, 71, 87, 0.15) !important;
+}
+
+/* Card spacing refinements */
+.reservation-card.mb-4 {
+  margin-bottom: 1rem !important;
+}
+
+/* Profile page - tighten all cards into one flow */
+.profile-page .reservation-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   width: 100%;
+  box-sizing: border-box;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+.profile-page .container {
+  max-width: 860px;
+}
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+.profile-page .col-md-8 {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+}
+
+/* ==========================================================================
+   1. Admin Page — RESTAURANTS Label Spacing
+   ========================================================================== */
+
+.dashboard-page h6 {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   2. Admin — Add/Edit Restaurant Modal Size Consistency
+   ========================================================================== */
+
+.dashboard-page .auth-card {
+  max-width: 520px !important;
+  width: 95vw;
+  padding: 2rem 2.5rem;
+}
+
+.dashboard-page .auth-card h2 {
+  color: var(--primary);
+  font-size: 1.35rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   3. Register Page — Match Login Page Style
+   ========================================================================== */
+
+.auth-page .auth-card {
+  max-width: 450px;
+  width: 100%;
+  padding: 2.5rem;
+}
+
+.auth-page .auth-card h2 {
+  color: var(--primary);
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.auth-page .auth-card .btn-auth {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.auth-page .auth-card input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+}
+
+/* ==========================================================================
+   4. Restaurant Search Page — Background Image
+   ========================================================================== */
+
+.restaurants-bg {
+  position: relative;
+  min-height: 100vh;
+}
+
+.restaurants-bg::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.06;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   5. Search Bar — Lower Position on Restaurant Page
+   ========================================================================== */
+
+.nav-search-container {
+  margin-top: 0.5rem;
 }
