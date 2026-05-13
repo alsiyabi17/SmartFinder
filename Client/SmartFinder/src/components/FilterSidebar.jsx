@@ -9,12 +9,15 @@ function FilterSidebar() {
 
   // Build food types dynamically from database categories
   const foodTypes = ["All Types", ...new Set(restaurants.map((r) => r.category).filter(Boolean))];
+  // Build locations dynamically from database
+  const dbLocations = [...new Set(restaurants.map((r) => r.location).filter(Boolean))];
 
   // Local state for checkboxes
   const [delivery, setDelivery] = useState(filters.services.includes("delivery"));
   const [dineIn, setDineIn] = useState(filters.services.includes("dine-in"));
   const [selectedRating, setSelectedRating] = useState(filters.rating);
   const [selectedFoodType, setSelectedFoodType] = useState(filters.foodType);
+  const [selectedLocation, setSelectedLocation] = useState(filters.location);
 
   const handleApply = () => {
     // Build services array from checkboxes
@@ -27,6 +30,7 @@ function FilterSidebar() {
         foodType: selectedFoodType,
         services: services,
         rating: selectedRating,
+        location: selectedLocation,
       })
     );
     dispatch(applyFilters());
@@ -37,12 +41,30 @@ function FilterSidebar() {
     setDineIn(false);
     setSelectedRating(0);
     setSelectedFoodType("All Types");
+    setSelectedLocation("All Locations");
     dispatch(clearFilters());
   };
 
   return (
     <div className="filter-section">
       <h5 className="filter-title">🎛️ Filters</h5>
+
+      {/* Location */}
+      <div className="filter-group">
+        <label>Location</label>
+        <Input
+          type="select"
+          value={selectedLocation}
+          onChange={(e) => setSelectedLocation(e.target.value)}
+        >
+          <option value="All Locations">📍 All Locations</option>
+          {dbLocations.map((loc) => (
+            <option key={loc} value={loc}>
+              📍 {loc}
+            </option>
+          ))}
+        </Input>
+      </div>
 
       {/* Food Type */}
       <div className="filter-group">

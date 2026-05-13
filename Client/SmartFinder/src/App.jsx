@@ -18,9 +18,21 @@ function App() {
         <Route path="/"               element={<HomePage />} />
         <Route path="/login"          element={<LoginPage />} />
         <Route path="/register"       element={<Register />} />
-        <Route path="/restaurants"    element={<RestaurantsPage />} />
-        <Route path="/restaurants/:id" element={<RestaurantDetailPage />} />
-        <Route path="/restaurant/:id"  element={<RestaurantDetailPage />} />
+        <Route path="/restaurants" element={
+          <ProtectedRoute>
+            <RestaurantsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/restaurants/:id" element={
+          <ProtectedRoute>
+            <RestaurantDetailPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/restaurant/:id" element={
+          <ProtectedRoute>
+            <RestaurantDetailPage />
+          </ProtectedRoute>
+        } />
 
         {/* Protected — must be logged in */}
         <Route path="/profile" element={
