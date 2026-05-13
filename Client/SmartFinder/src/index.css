@@ -1,6 +1,4 @@
-/* ==========================================================================
-   SmartFinder - Premium UI Design System
-   ========================================================================== */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
 
@@ -569,6 +567,62 @@ input::placeholder, textarea::placeholder {
 /* ==========================================================================
    User Profile Page
    ========================================================================== */
+
+/* Center the profile content in a single responsive container.
+   The JSX uses <Col md={8}> which leaves large empty side gutters at md+;
+   we cap the container width and let the inner column fill it. */
+.profile-page > .container {
+  max-width: 1040px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-page .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.profile-page .col-md-8 {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.profile-page .reservation-card {
+  padding: 1.75rem;
+  /* Reset the height: 100% that .reservation-card sets globally — on the
+     profile page cards are stacked vertically, so 100% inside the flex row
+     stretches each card past its content and creates a large empty gap. */
+  height: auto;
+}
+
+@media (max-width: 992px) {
+  .profile-page > .container {
+    max-width: 100%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-page > .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .profile-page .reservation-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-page .reservation-card {
+    padding: 1rem;
+  }
+}
 
 .avatar-circle {
   background-color: var(--primary);
