@@ -164,7 +164,20 @@ function AdminDashboard() {
             {restaurants.map((r) => (
               <div key={r._id} onClick={() => setSelectedId(r._id)} style={{ padding: "0.7rem 1rem", borderRadius: "var(--radius-sm)", cursor: "pointer", marginBottom: "0.3rem", background: selectedId === r._id ? "rgba(232, 93, 4, 0.15)" : "transparent", color: selectedId === r._id ? "var(--primary)" : "var(--text-secondary)", fontWeight: selectedId === r._id ? 600 : 400, transition: "all 0.2s ease", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span>{r.name}</span>
-                <span style={{ fontSize: "0.75rem" }}>⭐ {r.rating}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span style={{ fontSize: "0.75rem" }}>⭐ {r.rating}</span>
+                  <button
+                    type="button"
+                    title="Delete restaurant"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDeleteModal({ open: true, type: "restaurant", id: r._id });
+                    }}
+                    style={{ background: "transparent", border: "none", color: "var(--text-muted)", cursor: "pointer", fontSize: "0.9rem", padding: "0.15rem 0.35rem", lineHeight: 1 }}
+                  >
+                    🗑️
+                  </button>
+                </div>
               </div>
             ))}
             <Button className="btn-apply-filter" style={{ marginTop: "1rem" }} onClick={() => setShowAddRestaurant(true)}>+ Add Restaurant</Button>
