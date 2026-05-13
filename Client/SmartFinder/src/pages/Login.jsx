@@ -38,7 +38,7 @@ function Login() {
     // Normal user login via backend
     const result = await dispatch(loginUser({ email, password }));
     if (result.meta.requestStatus === "fulfilled") {
-      navigate("/home");
+      navigate("/");
     } else {
       alert(result.payload || "Invalid email or password.");
     }
