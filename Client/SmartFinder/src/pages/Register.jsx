@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "reactstrap";
-import { registerUser, clearError } from "../features/authSlice";
+import { registerUser, clearError, logout } from "../features/authSlice";
 
 function Register() {
   const [name, setName] = useState("");
@@ -10,6 +10,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [localError, setLocalError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { error, loading } = useSelector((state) => state.auth);
@@ -45,12 +46,34 @@ function Register() {
 
     const result = await dispatch(registerUser({ name, email, password }));
     if (result.meta.requestStatus === "fulfilled") {
-      navigate("/restaurants");
+      dispatch(logout());
+      // Show in-page success message, then redirect after 2 seconds
+      setShowSuccess(true);
+      setTimeout(() => navigate("/login"), 2000);
     }
   };
 
   const displayError = localError || error;
 
+  // ---------- Success overlay (replaces the form) ----------
+  if (showSuccess) {
+    return (
+      <div className="auth-page">
+        <div className="auth-card fade-in-up" style={{ textAlign: "center" }}>
+          {/* Checkmark circle */}
+          <div className="register-success-icon">✓</div>
+          <h2 style={{ marginBottom: "0.5rem" }}>Account Created!</h2>
+          <p className="auth-subtitle" style={{ marginBottom: "1.5rem" }}>
+            Registration successful. Redirecting you to login…
+          </p>
+          {/* Small spinner to show "redirecting" */}
+          <div className="spinner" style={{ margin: "0 auto" }} />
+        </div>
+      </div>
+    );
+  }
+
+  // ---------- Normal registration form ----------
   return (
     <div className="auth-page">
       <div className="auth-card fade-in-up">
@@ -133,3 +156,4 @@ function Register() {
 }
 
 export default Register;
+

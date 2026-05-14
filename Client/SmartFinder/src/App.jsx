@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
 import HomePage from './pages/Home.jsx'
 import LoginPage from './pages/Login.jsx'
@@ -9,6 +10,7 @@ import ProfilePage from './pages/Profile.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import Register from './pages/Register.jsx'
 import RestaurantsPage from './pages/Restaurants.jsx'
+import FavoritesPage from './pages/Favorites.jsx'
 
 function App() {
   return (
@@ -33,6 +35,11 @@ function App() {
             <RestaurantDetailPage />
           </ProtectedRoute>
         } />
+        <Route path="/favorites" element={
+          <ProtectedRoute>
+            <FavoritesPage />
+          </ProtectedRoute>
+        } />
 
         {/* Protected — must be logged in */}
         <Route path="/profile" element={
@@ -48,6 +55,7 @@ function App() {
           </ProtectedRoute>
         } />
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }

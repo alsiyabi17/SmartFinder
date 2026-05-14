@@ -122,7 +122,7 @@ const initialState = {
     rating: 0,
     location: "All Locations",
   },
-  favorites: [],
+  favorites: JSON.parse(localStorage.getItem("favorites") || "[]"),
   loading: false,
   error: null,
 };
@@ -152,7 +152,12 @@ const restaurantSlice = createSlice({
           (r) =>
             r.name.toLowerCase().includes(term) ||
             (r.description && r.description.toLowerCase().includes(term)) ||
-            (r.category && r.category.toLowerCase().includes(term))
+            (r.category && r.category.toLowerCase().includes(term)) ||
+            (r.meals && r.meals.some(
+              (m) =>
+                m.name.toLowerCase().includes(term) ||
+                (m.category && m.category.toLowerCase().includes(term))
+            ))
         );
       }
 
@@ -188,7 +193,7 @@ const restaurantSlice = createSlice({
       state.filteredRestaurants = state.restaurants;
     },
 
-    // Toggle favorite
+    // Toggle favorite (persisted to localStorage)
     toggleFavorite(state, action) {
       const id = action.payload;
       if (state.favorites.includes(id)) {
@@ -196,6 +201,7 @@ const restaurantSlice = createSlice({
       } else {
         state.favorites.push(id);
       }
+      localStorage.setItem("favorites", JSON.stringify(state.favorites));
     },
   },
   extraReducers: (builder) => {

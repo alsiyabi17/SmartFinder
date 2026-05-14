@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Input, Button } from "reactstrap";
-import { setFilters, applyFilters, setSearchTerm, fetchRestaurants } from "../features/restaurantSlice";
+import { setFilters, applyFilters, setSearchTerm, clearFilters, fetchRestaurants } from "../features/restaurantSlice";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -26,7 +26,8 @@ function Home() {
       navigate("/login");
       return;
     }
-    // Set search and location in Redux, then navigate to restaurants page
+    // Clear all previous filters first, then set new search and location
+    dispatch(clearFilters());
     dispatch(setSearchTerm(search));
     dispatch(setFilters({ location }));
     dispatch(applyFilters());

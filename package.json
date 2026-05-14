@@ -1,0 +1,21 @@
+{
+  "name": "smartfinder",
+  "version": "1.0.0",
+  "description": "SmartFinder - Restaurant finder application",
+  "private": true,
+  "scripts": {
+    "install:server": "cd Server && npm install",
+    "install:client": "cd Client/SmartFinder && npm install",
+    "install:all": "npm run install:server && npm run install:client",
+    "postinstall": "npm run install:all",
+    "dev:server": "cd Server && npm run dev",
+    "dev:client": "cd Client/SmartFinder && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "start:server": "cd Server && npm start",
+    "start:client": "cd Client/SmartFinder && npm run preview",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

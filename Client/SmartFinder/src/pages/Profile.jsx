@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Button } from "reactstrap";
-import { updateProfileAsync, changePasswordAsync, clearMessage, fetchProfile } from "../features/userSlice";
+import { updateProfileAsync, changePasswordAsync, clearMessage, fetchProfile, deleteAccountAsync } from "../features/userSlice";
 import { logout } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -65,9 +65,14 @@ function Profile() {
     setTimeout(() => dispatch(clearMessage()), 3000);
   };
 
-  const handleDeleteAccount = () => {
-    dispatch(logout());
-    navigate("/");
+  const handleDeleteAccount = async () => {
+    const result = await dispatch(deleteAccountAsync());
+    if (result.meta.requestStatus === "fulfilled") {
+      dispatch(logout());
+      navigate("/");
+    } else {
+      alert("Failed to delete account. Please try again.");
+    }
   };
 
   if (loading && !profile) {

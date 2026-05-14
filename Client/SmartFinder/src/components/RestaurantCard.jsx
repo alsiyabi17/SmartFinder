@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "reactstrap";
+import { toggleFavorite } from "../features/restaurantSlice";
 
 function RestaurantCard({ restaurant }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.restaurants.favorites);
+  const isFavorited = favorites.includes(restaurant._id);
 
   // Create star display from rating number
   const renderStars = (rating) => {
@@ -18,12 +23,25 @@ function RestaurantCard({ restaurant }) {
     return stars;
   };
 
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    dispatch(toggleFavorite(restaurant._id));
+  };
+
   return (
     <div className="restaurant-card">
       {/* Image */}
       <div className="card-img-container">
         <img src={restaurant.image} alt={restaurant.name} />
         <span className="card-img-overlay-badge">⭐ {restaurant.rating}</span>
+        {/* Favorite heart button */}
+        <button
+          className={`fav-heart-btn ${isFavorited ? "fav-active" : ""}`}
+          onClick={handleFavoriteClick}
+          aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+        >
+          {isFavorited ? "♥" : "♡"}
+        </button>
       </div>
 
       {/* Body */}

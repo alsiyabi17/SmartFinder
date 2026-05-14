@@ -8,7 +8,7 @@ import { setSearchTerm, applyFilters, fetchRestaurants } from "../features/resta
 
 function Restaurants() {
   const dispatch = useDispatch();
-  const { filteredRestaurants, searchTerm, loading } = useSelector(
+  const { filteredRestaurants, searchTerm, loading, restaurants } = useSelector(
     (state) => state.restaurants
   );
 
@@ -17,10 +17,10 @@ function Restaurants() {
     dispatch(fetchRestaurants());
   }, [dispatch]);
 
-  // Apply filters whenever search term changes
+  // Apply filters whenever search term changes or new restaurant data is loaded
   useEffect(() => {
     dispatch(applyFilters());
-  }, [searchTerm, dispatch]);
+  }, [searchTerm, restaurants, dispatch]);
 
   const handleSearch = (value) => {
     dispatch(setSearchTerm(value));

@@ -40,6 +40,19 @@ export const changePasswordAsync = createAsyncThunk(
   }
 );
 
+// Delete user account
+export const deleteAccountAsync = createAsyncThunk(
+  "user/deleteAccount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await API.delete("/users/profile");
+      return data.message;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to delete account");
+    }
+  }
+);
+
 // Initial state for user profile
 const initialState = {
   profile: null,
@@ -89,6 +102,16 @@ const userSlice = createSlice({
         state.message = action.payload;
       })
       .addCase(changePasswordAsync.rejected, (state, action) => {
+        state.error = action.payload;
+      });
+
+    // Delete account
+    builder
+      .addCase(deleteAccountAsync.fulfilled, (state) => {
+        state.profile = null;
+        state.message = "Account deleted successfully";
+      })
+      .addCase(deleteAccountAsync.rejected, (state, action) => {
         state.error = action.payload;
       });
   },

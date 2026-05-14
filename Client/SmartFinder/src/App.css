@@ -91,6 +91,215 @@
 }
 
 /* ==========================================================================
+   User Menu Dropdown (Navbar)
+   ========================================================================== */
+
+.user-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Welcome text shown directly in the navbar (not clickable) */
+.navbar-welcome-text {
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: var(--font-heading);
+  letter-spacing: -0.2px;
+}
+
+/* Avatar circle button in the navbar */
+.user-avatar-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: 2px solid rgba(255, 140, 0, 0.4);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.user-avatar-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.2);
+}
+
+/* Dropdown panel */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 260px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  padding: 0.5rem 0;
+  animation-duration: 0.25s;
+}
+
+/* Small arrow/triangle at top-right */
+.user-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
+  transform: rotate(45deg);
+}
+
+/* Header section with avatar + welcome text */
+.user-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.user-dropdown-avatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: rgba(255, 140, 0, 0.15);
+  color: var(--primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 140, 0, 0.3);
+}
+
+.user-dropdown-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.user-dropdown-email {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Divider line */
+.user-dropdown-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 0.35rem 0;
+}
+
+/* Menu items (links & buttons) */
+.user-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  text-align: left;
+}
+
+.user-dropdown-item:hover {
+  background: rgba(255, 140, 0, 0.08);
+  color: var(--primary);
+}
+
+.user-dropdown-item span {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Logout item — always red for danger look */
+.user-dropdown-logout {
+  color: #dc3545;
+}
+
+.user-dropdown-logout .logout-icon {
+  color: #dc3545;
+  font-weight: 900;
+}
+
+.user-dropdown-logout:hover {
+  background: rgba(220, 53, 69, 0.1);
+  color: #ff4757;
+}
+
+.user-dropdown-logout:hover .logout-icon {
+  color: #ff4757;
+}
+
+/* ==========================================================================
+   Favorite Heart Button (on Restaurant Cards)
+   ========================================================================== */
+
+.fav-heart-btn {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(13, 27, 42, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.fav-heart-btn:hover {
+  transform: scale(1.15);
+  background: rgba(13, 27, 42, 0.85);
+  color: #ff4757;
+}
+
+.fav-heart-btn.fav-active {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.15);
+  border-color: rgba(255, 71, 87, 0.3);
+}
+
+.fav-heart-btn.fav-active:hover {
+  background: rgba(255, 71, 87, 0.25);
+}
+
+/* ==========================================================================
    Filter Sidebar
    ========================================================================== */
 
