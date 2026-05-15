@@ -9,9 +9,16 @@ function Home() {
   const [location, setLocation] = useState("All Locations");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const { restaurants } = useSelector((state) => state.restaurants);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+
+  // Admin should never see the customer Home page — bounce them to the dashboard
+  useEffect(() => {
+    if (isLoggedIn && user?.email === "admin@gmail.com") {
+      navigate("/admin", { replace: true });
+    }
+  }, [isLoggedIn, user, navigate]);
 
   useEffect(() => {
     dispatch(fetchRestaurants());
