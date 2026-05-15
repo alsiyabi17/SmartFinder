@@ -19,7 +19,7 @@ function AdminDashboard() {
 
   const [showAddRestaurant, setShowAddRestaurant] = useState(false);
   const [editingRestaurant, setEditingRestaurant] = useState(null);
-  const [newRestaurant, setNewRestaurant] = useState({ name: "", category: "", image: "", description: "", location: "Muscat", rating: "", services: [], lat: "", lng: "" });
+  const [newRestaurant, setNewRestaurant] = useState({ name: "", category: "", image: "", description: "", location: "Muscat", rating: "", services: [], lat: "", lng: "", isOpen: true });
   const [showAddMeal, setShowAddMeal] = useState(false);
   const [newMeal, setNewMeal] = useState({ name: "", price: "", category: "", image: "" });
   const [editingMeal, setEditingMeal] = useState(null);
@@ -59,7 +59,7 @@ function AdminDashboard() {
         lng: lngNum || 0,
       };
       await dispatch(createRestaurant(restaurantData));
-      setNewRestaurant({ name: "", category: "", image: "", description: "", location: "Muscat", rating: "", services: [], lat: "", lng: "" });
+      setNewRestaurant({ name: "", category: "", image: "", description: "", location: "Muscat", rating: "", services: [], lat: "", lng: "", isOpen: true });
       setShowAddRestaurant(false);
     }
   };
@@ -192,7 +192,7 @@ function AdminDashboard() {
                     <p style={{ color: "var(--text-muted)", margin: 0 }}>{currentRestaurant.category} • {currentRestaurant.location}</p>
                   </div>
                   <div className="d-flex gap-2">
-                    <Button className="btn-view-details" size="sm" onClick={() => setEditingRestaurant({ ...currentRestaurant })}>✏️ Edit Restaurant</Button>
+                    <Button className="btn-view-details" size="sm" onClick={() => setEditingRestaurant({ ...currentRestaurant, isOpen: currentRestaurant.isOpen ?? true })}>✏️ Edit Restaurant</Button>
                     <Button className="btn-apply-filter" size="sm" onClick={() => setShowAddMeal(true)}>+ Add Meal</Button>
                     <Button className="btn-cancel" onClick={() => setDeleteModal({ open: true, type: "restaurant", id: currentRestaurant._id })}>🗑️ Delete</Button>
                   </div>
@@ -268,6 +268,19 @@ function AdminDashboard() {
                   </FormGroup>
                 </div>
               </FormGroup>
+              <FormGroup>
+                <Label>Status</Label>
+                <div>
+                  <FormGroup check inline>
+                    <Input type="radio" name="addStatus" checked={newRestaurant.isOpen === true} onChange={() => setNewRestaurant({ ...newRestaurant, isOpen: true })} />
+                    <Label check>Open</Label>
+                  </FormGroup>
+                  <FormGroup check inline>
+                    <Input type="radio" name="addStatus" checked={newRestaurant.isOpen === false} onChange={() => setNewRestaurant({ ...newRestaurant, isOpen: false })} />
+                    <Label check>Closed</Label>
+                  </FormGroup>
+                </div>
+              </FormGroup>
               <Row>
                 <Col md={6}>
                   <FormGroup>
@@ -326,6 +339,19 @@ function AdminDashboard() {
                   <FormGroup check inline>
                     <Input type="checkbox" value="delivery" checked={editingRestaurant.services?.includes("delivery")} onChange={handleEditServiceChange} />
                     <Label check>Delivery</Label>
+                  </FormGroup>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <Label>Status</Label>
+                <div>
+                  <FormGroup check inline>
+                    <Input type="radio" name="editStatus" checked={editingRestaurant.isOpen === true} onChange={() => setEditingRestaurant({ ...editingRestaurant, isOpen: true })} />
+                    <Label check>Open</Label>
+                  </FormGroup>
+                  <FormGroup check inline>
+                    <Input type="radio" name="editStatus" checked={editingRestaurant.isOpen === false} onChange={() => setEditingRestaurant({ ...editingRestaurant, isOpen: false })} />
+                    <Label check>Closed</Label>
                   </FormGroup>
                 </div>
               </FormGroup>

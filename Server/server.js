@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import restaurantRoutes from "./routes/restaurantRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import reservationRoutes from "./routes/reservationRoutes.js";
 
 // Connect to MongoDB
 connectDB();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/reservations", reservationRoutes);
 
 // Health check
 app.get("/", (req, res) => {

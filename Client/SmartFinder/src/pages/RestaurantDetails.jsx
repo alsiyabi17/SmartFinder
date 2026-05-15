@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Button } from "reactstrap";
 import { fetchRestaurantById, toggleFavorite } from "../features/restaurantSlice";
+import API from "../services/api";
 
 function RestaurantDetails() {
   const { id } = useParams();
@@ -15,6 +16,12 @@ function RestaurantDetails() {
   const [date, setDate] = useState("");
   const [people, setPeople] = useState(2);
   const [booked, setBooked] = useState(false);
+  const [bookingError, setBookingError] = useState("");
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingResult, setBookingResult] = useState(null);
+
+  // Read current user from auth state to prefill customer name/email
+  const { user } = useSelector((state) => state.auth);
 
   // Load the restaurant when the page opens
   useEffect(() => {
@@ -23,10 +30,33 @@ function RestaurantDetails() {
 
   const isFavorite = favorites.includes(id);
 
-  const handleBook = (e) => {
+  // POST to backend — Reservation collection (server validates + calculates total)
+  const handleBook = async (e) => {
     e.preventDefault();
-    if (date && people > 0) {
+    setBookingError("");
+
+    if (!date || !people || people < 1) {
+      setBookingError("Please choose a valid date and party size.");
+      return;
+    }
+
+    setBookingLoading(true);
+    try {
+      const { data } = await API.post("/reservations", {
+        restaurantId: id,
+        customerName: user?.name || "Guest",
+        customerEmail: user?.email || "guest@example.com",
+        reservationDate: date,
+        numberOfPeople: Number(people),
+      });
+      setBookingResult(data);
       setBooked(true);
+    } catch (err) {
+      setBookingError(
+        err.response?.data?.message || "Failed to create reservation"
+      );
+    } finally {
+      setBookingLoading(false);
     }
   };
 
@@ -58,11 +88,11 @@ function RestaurantDetails() {
 
   return (
     <div className="detail-page">
-      {/* Top Navigation */}
+      {/* Top Navigation — offset below the global Navbar to avoid overlap */}
       <div
         style={{
           position: "fixed",
-          top: 0,
+          top: 64,
           left: 0,
           right: 0,
           zIndex: 100,
@@ -147,6 +177,26 @@ function RestaurantDetails() {
               {restaurant.services.join(", ")}
             </div>
           </div>
+          <div className="detail-info-item">
+            <div className="info-label">Status</div>
+            <div
+              className="info-value"
+              style={{
+                color: restaurant.isOpen ? "#10b981" : "#ef4444",
+                fontWeight: 600,
+              }}
+            >
+              {restaurant.isOpen ? "🟢 Open" : "🔴 Closed"}
+            </div>
+          </div>
+          {restaurant.averageMealPrice > 0 && (
+            <div className="detail-info-item">
+              <div className="info-label">Avg. Meal Price</div>
+              <div className="info-value accent">
+                ${restaurant.averageMealPrice.toFixed(2)}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Top 3 Meals */}
@@ -187,10 +237,23 @@ function RestaurantDetails() {
 
               {booked ? (
                 <div className="alert-custom alert-success-custom">
-                  ✅ Reservation confirmed! We look forward to seeing you.
+                  ✅ Reservation confirmed for{" "}
+                  <strong>{bookingResult?.numberOfPeople}</strong> people on{" "}
+                  <strong>
+                    {bookingResult?.reservationDate
+                      ? new Date(bookingResult.reservationDate).toLocaleDateString()
+                      : ""}
+                  </strong>
+                  . Estimated total:{" "}
+                  <strong>${bookingResult?.estimatedTotal}</strong>.
                 </div>
               ) : (
                 <form onSubmit={handleBook}>
+                  {bookingError && (
+                    <div className="alert-custom alert-danger-custom">
+                      {bookingError}
+                    </div>
+                  )}
                   <div className="form-group">
                     <label>Date</label>
                     <input
@@ -211,8 +274,12 @@ function RestaurantDetails() {
                       required
                     />
                   </div>
-                  <Button className="btn-reserve" type="submit">
-                    Book Now
+                  <Button
+                    className="btn-reserve"
+                    type="submit"
+                    disabled={bookingLoading}
+                  >
+                    {bookingLoading ? "Booking..." : "Book Now"}
                   </Button>
                 </form>
               )}

@@ -18,6 +18,10 @@ const restaurantSchema = new mongoose.Schema(
     lat: { type: Number, default: 0 },
     lng: { type: Number, default: 0 },
     services: { type: [String], default: ["dine-in"] },
+    // Boolean datatype — required by rubric. Indicates if the restaurant is currently open.
+    isOpen: { type: Boolean, default: true },
+    // Server-calculated field — average price across all meals.
+    averageMealPrice: { type: Number, default: 0 },
     meals: [mealSchema],
   },
   { timestamps: true }

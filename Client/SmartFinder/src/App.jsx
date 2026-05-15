@@ -11,6 +11,7 @@ import AdminDashboard from './pages/AdminDashboard.jsx'
 import Register from './pages/Register.jsx'
 import RestaurantsPage from './pages/Restaurants.jsx'
 import FavoritesPage from './pages/Favorites.jsx'
+import AboutPage from './pages/About.jsx'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/"               element={<HomePage />} />
         <Route path="/login"          element={<LoginPage />} />
         <Route path="/register"       element={<Register />} />
+        <Route path="/about"          element={<AboutPage />} />
         <Route path="/restaurants" element={
           <ProtectedRoute>
             <RestaurantsPage />

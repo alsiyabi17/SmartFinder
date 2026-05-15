@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Navbar,
@@ -18,7 +18,11 @@ function NavigationBar() {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const menuRef = useRef(null);
+
+  // About link only appears on the Home page
+  const isHome = location.pathname === "/";
 
   const toggle = () => setIsOpen(!isOpen);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -62,6 +66,14 @@ function NavigationBar() {
 
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ms-auto d-flex align-items-center gap-2" navbar>
+            {/* About link is visible only on the Home page */}
+            {isHome && (
+              <NavItem>
+                <Link className="nav-link nav-link-custom" to="/about">
+                  About
+                </Link>
+              </NavItem>
+            )}
             {isLoggedIn ? (
               user?.email === "admin@gmail.com" ? (
                 /* ---- Admin: keep as-is ---- */
@@ -176,4 +188,3 @@ function NavigationBar() {
 }
 
 export default NavigationBar;
-
