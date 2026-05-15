@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(docker run *)",
+      "Bash(docker build *)"
+    ]
+  }
+}
