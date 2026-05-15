@@ -18,6 +18,7 @@ function FilterSidebar() {
   const [selectedRating, setSelectedRating] = useState(filters.rating);
   const [selectedFoodType, setSelectedFoodType] = useState(filters.foodType);
   const [selectedLocation, setSelectedLocation] = useState(filters.location);
+  const [selectedStatus, setSelectedStatus] = useState(filters.status || "All");
 
   const handleApply = () => {
     // Build services array from checkboxes
@@ -31,6 +32,7 @@ function FilterSidebar() {
         services: services,
         rating: selectedRating,
         location: selectedLocation,
+        status: selectedStatus,
       })
     );
     dispatch(applyFilters());
@@ -42,6 +44,7 @@ function FilterSidebar() {
     setSelectedRating(0);
     setSelectedFoodType("All Types");
     setSelectedLocation("All Locations");
+    setSelectedStatus("All");
     dispatch(clearFilters());
   };
 
@@ -116,6 +119,22 @@ function FilterSidebar() {
               onClick={() => setSelectedRating(r)}
             >
               {r === 0 ? "Any" : `${r}+⭐`}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Status */}
+      <div className="filter-group">
+        <label>Status</label>
+        <div className="filter-radio">
+          {["All", "Open", "Closed"].map((s) => (
+            <label
+              key={s}
+              className={selectedStatus === s ? "active" : ""}
+              onClick={() => setSelectedStatus(s)}
+            >
+              {s === "All" ? "All" : s === "Open" ? "🟢 Open" : "🔴 Closed"}
             </label>
           ))}
         </div>

@@ -59,7 +59,7 @@ function About() {
         <h2 style={{ fontWeight: 700, marginBottom: "1.5rem", textAlign: "center" }}>
           Development Team
         </h2>
-        <Row className="fade-in-up fade-in-up-delay-1">
+        <Row className="fade-in-up fade-in-up-delay-1 justify-content-center">
           {developers.map((dev, i) => (
             <Col md={4} key={i} className="mb-4">
               <div

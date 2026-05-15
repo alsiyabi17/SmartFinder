@@ -168,6 +168,18 @@ function AdminDashboard() {
                   <span style={{ fontSize: "0.75rem" }}>⭐ {r.rating}</span>
                   <button
                     type="button"
+                    title="Update restaurant"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedId(r._id);
+                      setEditingRestaurant({ ...r, isOpen: r.isOpen ?? true });
+                    }}
+                    style={{ background: "transparent", border: "none", color: "var(--text-muted)", cursor: "pointer", fontSize: "0.9rem", padding: "0.15rem 0.35rem", lineHeight: 1 }}
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    type="button"
                     title="Delete restaurant"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -232,7 +244,7 @@ function AdminDashboard() {
 
       {showAddRestaurant && (
         <div style={overlayStyle} onClick={() => setShowAddRestaurant(false)}>
-          <div className="auth-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "500px" }}>
+          <div className="auth-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "500px", width: "90%", maxHeight: "90vh", overflowY: "auto" }}>
             <h2 style={{ fontSize: "1.4rem" }}>Add Restaurant</h2>
             <Form onSubmit={handleAddRestaurant}>
               <FormGroup>
@@ -306,7 +318,7 @@ function AdminDashboard() {
 
       {editingRestaurant && (
         <div style={overlayStyle} onClick={() => setEditingRestaurant(null)}>
-          <div className="auth-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "500px" }}>
+          <div className="auth-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "500px", width: "90%", maxHeight: "90vh", overflowY: "auto" }}>
             <h2 style={{ fontSize: "1.4rem" }}>Edit Restaurant</h2>
             <Form onSubmit={submitEditRestaurant}>
               <FormGroup>

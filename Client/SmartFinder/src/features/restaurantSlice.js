@@ -121,6 +121,7 @@ const initialState = {
     services: [],
     rating: 0,
     location: "All Locations",
+    status: "All",
   },
   favorites: JSON.parse(localStorage.getItem("favorites") || "[]"),
   loading: false,
@@ -181,6 +182,13 @@ const restaurantSlice = createSlice({
       // Filter by minimum rating
       if (state.filters.rating > 0) {
         results = results.filter((r) => r.rating >= state.filters.rating);
+      }
+
+      // Filter by open/closed status
+      if (state.filters.status === "Open") {
+        results = results.filter((r) => r.isOpen === true);
+      } else if (state.filters.status === "Closed") {
+        results = results.filter((r) => r.isOpen === false);
       }
 
       state.filteredRestaurants = results;

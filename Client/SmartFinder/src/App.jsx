@@ -23,22 +23,22 @@ function App() {
         <Route path="/register"       element={<Register />} />
         <Route path="/about"          element={<AboutPage />} />
         <Route path="/restaurants" element={
-          <ProtectedRoute>
+          <ProtectedRoute blockAdmin>
             <RestaurantsPage />
           </ProtectedRoute>
         } />
         <Route path="/restaurants/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute blockAdmin>
             <RestaurantDetailPage />
           </ProtectedRoute>
         } />
         <Route path="/restaurant/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute blockAdmin>
             <RestaurantDetailPage />
           </ProtectedRoute>
         } />
         <Route path="/favorites" element={
-          <ProtectedRoute>
+          <ProtectedRoute blockAdmin>
             <FavoritesPage />
           </ProtectedRoute>
         } />
