@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1
+
+# ---------------------------------------------------------------------
+# Production Dockerfile for the Vite + React client (SmartFinder)
+# Multi-stage build: compile with Node, serve static files with Nginx.
+# ---------------------------------------------------------------------
+
+# ===== Stage 1: Build the React app =====
+FROM node:20-alpine AS build
+
+# Working directory for the build stage
+WORKDIR /app
+
+# Copy dependency manifests first to leverage layer caching
+COPY package.json package-lock.json* ./
+
+# Install dependencies (use ci when a lockfile exists for reproducible builds)
+RUN npm install
+
+# Copy the rest of the source code
+COPY . .
+
+# Produce the optimized production bundle in /app/dist
+RUN npm run build
+
+
+# ===== Stage 2: Serve the built assets with Nginx =====
+FROM nginx:alpine
+
+# Copy the static build output from the build stage into Nginx's web root.
+# The previous stage is referenced by its alias "build".
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Nginx serves HTTP on port 80 by default
+EXPOSE 80
+
+# Run Nginx in the foreground so the container stays alive
+CMD ["nginx", "-g", "daemon off;"]
