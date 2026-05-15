@@ -34,9 +34,10 @@ const calculateAverageMealPrice = (meals = []) => {
 };
 
 // @route   GET /api/restaurants
+// Returns restaurants sorted by rating (highest first).
 router.get("/", async (req, res) => {
   try {
-    const restaurants = await Restaurant.find({});
+    const restaurants = await Restaurant.find({}).sort({ rating: -1 });
     res.json(restaurants);
   } catch (error) {
     res.status(500).json({ message: error.message });
