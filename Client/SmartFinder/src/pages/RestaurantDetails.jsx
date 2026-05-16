@@ -189,14 +189,6 @@ function RestaurantDetails() {
               {restaurant.isOpen ? "🟢 Open" : "🔴 Closed"}
             </div>
           </div>
-          {restaurant.averageMealPrice > 0 && (
-            <div className="detail-info-item">
-              <div className="info-label">Avg. Meal Price</div>
-              <div className="info-value accent">
-                ${restaurant.averageMealPrice.toFixed(2)}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Top 3 Meals */}
