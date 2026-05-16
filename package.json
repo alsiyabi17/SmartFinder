@@ -13,7 +13,9 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "start:server": "cd Server && npm start",
     "start:client": "cd Client/SmartFinder && npm run preview",
-    "start": "concurrently \"npm run start:server\" \"npm run start:client\""
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "build:client": "cd Client/SmartFinder && npm run build",
+    "build": "npm run build:client"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
