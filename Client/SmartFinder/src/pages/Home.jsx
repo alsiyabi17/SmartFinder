@@ -96,7 +96,7 @@ function Home() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search restaurants, cuisines..."
+                  placeholder="Search restaurants"
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   style={{
                     background: "var(--bg-input)",

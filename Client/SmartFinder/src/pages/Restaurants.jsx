@@ -44,7 +44,7 @@ function Restaurants() {
             <SearchBar
               value={searchTerm}
               onChange={handleSearch}
-              placeholder="Search by name, cuisine, or description..."
+              placeholder="Search Restaurants"
             />
           </Col>
         </Row>
