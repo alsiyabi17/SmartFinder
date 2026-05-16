@@ -88,58 +88,38 @@ function RestaurantDetails() {
 
   return (
     <div className="detail-page">
-      {/* Top Navigation — offset well below the global Navbar so buttons look spaced */}
+      {/* Action buttons — under the SmartFinder logo */}
       <div
+        className="d-flex gap-2"
         style={{
           position: "fixed",
-          top: 90,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          background: "rgba(10, 10, 15, 0.92)",
-          backdropFilter: "blur(20px)",
-          borderBottom: "1px solid var(--border-color)",
-          padding: "0.75rem 0",
+          top: "60px",
+          left: "22%",
+          zIndex: 1100,
         }}
       >
-        <Container className="d-flex justify-content-between align-items-center">
-          <Link
-            to="/"
-            style={{
-              fontWeight: 800,
-              fontSize: "1.5rem",
-              background: "var(--gradient-primary)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textDecoration: "none",
-            }}
-          >
-            SmartFinder
-          </Link>
-          <div className="d-flex gap-2">
-            <Link to="/restaurants">
-              <Button className="btn-nav-auth" size="sm">
-                🏠 Home
-              </Button>
-            </Link>
-            <Button
-              className="btn-nav-auth"
-              size="sm"
-              onClick={() => dispatch(toggleFavorite(restaurant._id))}
-              style={{
-                background: isFavorite
-                  ? "rgba(255, 71, 87, 0.2)"
-                  : "var(--gradient-primary)",
-                color: isFavorite ? "#ff4757" : "white",
-              }}
-            >
-              {isFavorite ? "❤️ Saved" : "🤍 Favorite"}
-            </Button>
-          </div>
-        </Container>
+        <Link to="/restaurants">
+          <Button className="btn-nav-auth" size="sm">
+            🏠 Home
+          </Button>
+        </Link>
+        <Button
+          className="btn-nav-auth"
+          size="sm"
+          onClick={() => dispatch(toggleFavorite(restaurant._id))}
+          style={{
+            background: isFavorite
+              ? "rgba(255, 71, 87, 0.2)"
+              : "var(--gradient-primary)",
+            color: isFavorite ? "#ff4757" : "white",
+          }}
+        >
+          {isFavorite ? "❤️ Saved" : "🤍 Favorite"}
+        </Button>
       </div>
 
-      <Container>
+      <Container style={{ paddingTop: "6rem" }}>
+
         {/* Hero Banner */}
         <div className="detail-hero fade-in-up">
           <img src={restaurant.image} alt={restaurant.name} />
