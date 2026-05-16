@@ -150,14 +150,46 @@ npm test
 
 ---
 
-## Docker (Frontend)
+## Docker
 
-A production Dockerfile is provided for the client:
+Both the client and server are containerized, and a `docker-compose.yml` is provided at the project root to run everything together (MongoDB + API + Vite client).
 
+### Run the full stack (development)
+```bash
+docker compose up --build
+```
+- Client: http://localhost:5173
+- API: http://localhost:5000
+- MongoDB: localhost:27017
+
+### Run individual containers
+
+**Server (dev)**
+```bash
+cd Server
+docker build -t smartfinder-server .
+docker run -p 5000:5000 --env-file .env smartfinder-server
+```
+
+**Server (production)**
+```bash
+cd Server
+docker build -f Dockerfile.prod -t smartfinder-server:prod .
+docker run -p 5000:5000 --env-file .env smartfinder-server:prod
+```
+
+**Client (dev)**
 ```bash
 cd Client/SmartFinder
-docker build -f Dockerfile.prod -t smartfinder-client .
-docker run -p 8080:80 smartfinder-client
+docker build -t smartfinder-client .
+docker run -p 5173:5173 smartfinder-client
+```
+
+**Client (production — Nginx)**
+```bash
+cd Client/SmartFinder
+docker build -f Dockerfile.prod -t smartfinder-client:prod .
+docker run -p 8080:80 smartfinder-client:prod
 ```
 
 ---

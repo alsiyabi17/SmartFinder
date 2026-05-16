@@ -93,8 +93,8 @@ function RestaurantDetails() {
         className="d-flex gap-2"
         style={{
           position: "fixed",
-          top: "60px",
-          left: "22%",
+          top: "130px",
+          left: "66%",
           zIndex: 1100,
         }}
       >

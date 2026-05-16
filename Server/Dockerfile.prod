@@ -1,0 +1,41 @@
+# syntax=docker/dockerfile:1
+
+# ---------------------------------------------------------------------
+# Production Dockerfile for the Express + MongoDB server (SmartFinder)
+# Multi-stage build: install only prod deps, run as a non-root user.
+# ---------------------------------------------------------------------
+
+# ===== Stage 1: Install production dependencies =====
+FROM node:20-alpine AS deps
+
+WORKDIR /app
+
+# Copy dependency manifests first to leverage layer caching
+COPY package.json package-lock.json* ./
+
+# Install only production dependencies (skip nodemon, etc.)
+RUN npm install --omit=dev
+
+
+# ===== Stage 2: Build the runtime image =====
+FROM node:20-alpine AS runtime
+
+# Run as the built-in non-root "node" user for better security
+USER node
+
+WORKDIR /app
+
+# Pull the pre-installed node_modules from the deps stage
+COPY --chown=node:node --from=deps /app/node_modules ./node_modules
+
+# Copy the application source
+COPY --chown=node:node . .
+
+# Default to production environment
+ENV NODE_ENV=production
+
+# Express listens on 5000 by default
+EXPOSE 5000
+
+# Start the server directly (no nodemon in production)
+CMD ["node", "server.js"]

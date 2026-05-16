@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------
+# SmartFinder — development docker-compose
+# Runs MongoDB, the Express API, and the Vite React client together.
+#
+# Usage:
+#   docker compose up           # build (first time) and start everything
+#   docker compose up --build   # rebuild images and start
+#   docker compose down         # stop and remove containers
+#
+# Services:
+#   mongo   -> MongoDB 7   (port 27017)
+#   server  -> Express API (port 5000)
+#   client  -> Vite dev    (port 5173)
+# ---------------------------------------------------------------------
+
+services:
+  # ----- MongoDB database -----
+  mongo:
+    image: mongo:7
+    container_name: smartfinder-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # ----- Express + Mongoose API -----
+  server:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    container_name: smartfinder-server
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      # Use the docker service name "mongo" as the hostname
+      MONGO_URI: mongodb://mongo:27017/smartfinder
+      JWT_SECRET: ${JWT_SECRET:-change_me_in_env}
+    depends_on:
+      - mongo
+    volumes:
+      # Mount source for hot-reload via nodemon (excluding node_modules)
+      - ./Server:/app
+      - /app/node_modules
+
+  # ----- Vite + React client -----
+  client:
+    build:
+      context: ./Client/SmartFinder
+      dockerfile: Dockerfile
+    container_name: smartfinder-client
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    volumes:
+      # Mount source for Vite hot module replacement (excluding node_modules)
+      - ./Client/SmartFinder:/app
+      - /app/node_modules
+
+volumes:
+  mongo-data:
