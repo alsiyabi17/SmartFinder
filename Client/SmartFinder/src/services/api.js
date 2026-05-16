@@ -1,7 +1,10 @@
 import axios from "axios";
 
+// In production the URL is set via the Vite env variable VITE_API_URL
+// (e.g. https://smartfinder-api.onrender.com/api). Falls back to localhost
+// for development.
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
 // Attach token to every request if available
