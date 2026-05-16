@@ -157,7 +157,7 @@ function AdminDashboard() {
     <div className="dashboard-page">
       <Container fluid>
         <Row>
-          <Col md={3} style={{ background: "var(--bg-secondary)", minHeight: "100vh", borderRight: "1px solid var(--border-color)", padding: "1.5rem" }}>
+          <Col md={3} style={{ background: "var(--bg-secondary)", minHeight: "100vh", borderRight: "1px solid var(--border-color)", padding: "8rem 1.5rem 1.5rem 1.5rem" }}>
             <div style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--primary)", marginBottom: "0.3rem" }}>🍔 SmartFinder</div>
             <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "2rem" }}>Admin Dashboard</div>
             <h6 style={{ color: "var(--text-secondary)", textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "1px", marginBottom: "1rem" }}>Restaurants</h6>
@@ -195,7 +195,7 @@ function AdminDashboard() {
             <Button className="btn-apply-filter" style={{ marginTop: "1rem" }} onClick={() => setShowAddRestaurant(true)}>+ Add Restaurant</Button>
           </Col>
 
-          <Col md={9} style={{ padding: "2rem" }}>
+          <Col md={9} style={{ padding: "8rem 2rem 2rem 2rem" }}>
             {currentRestaurant ? (
               <>
                 <div className="d-flex justify-content-between align-items-center mb-4">
@@ -204,9 +204,7 @@ function AdminDashboard() {
                     <p style={{ color: "var(--text-muted)", margin: 0 }}>{currentRestaurant.category} • {currentRestaurant.location}</p>
                   </div>
                   <div className="d-flex gap-2">
-                    <Button className="btn-view-details" size="sm" onClick={() => setEditingRestaurant({ ...currentRestaurant, isOpen: currentRestaurant.isOpen ?? true })}>✏️ Edit Restaurant</Button>
                     <Button className="btn-apply-filter" size="sm" onClick={() => setShowAddMeal(true)}>+ Add Meal</Button>
-                    <Button className="btn-cancel" onClick={() => setDeleteModal({ open: true, type: "restaurant", id: currentRestaurant._id })}>🗑️ Delete</Button>
                   </div>
                 </div>
                 <h5 style={{ fontWeight: 700, marginBottom: "1rem" }}>Meals ({currentRestaurant.meals?.length || 0})</h5>
