@@ -88,11 +88,11 @@ function RestaurantDetails() {
 
   return (
     <div className="detail-page">
-      {/* Top Navigation — offset below the global Navbar to avoid overlap */}
+      {/* Top Navigation — offset well below the global Navbar so buttons look spaced */}
       <div
         style={{
           position: "fixed",
-          top: 64,
+          top: 90,
           left: 0,
           right: 0,
           zIndex: 100,
