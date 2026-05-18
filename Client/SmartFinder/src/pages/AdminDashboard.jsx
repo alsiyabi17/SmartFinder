@@ -19,7 +19,7 @@ function AdminDashboard() {
 
   const [showAddRestaurant, setShowAddRestaurant] = useState(false);
   const [editingRestaurant, setEditingRestaurant] = useState(null);
-  const [newRestaurant, setNewRestaurant] = useState({ name: "", category: "", image: "", description: "", location: "Muscat", rating: "", services: [], lat: "", lng: "", isOpen: true });
+  const [newRestaurant, setNewRestaurant] = useState({ name: "", category: "", image: "", description: "", location: "", rating: "", services: [], lat: "", lng: "", isOpen: true });
   const [showAddMeal, setShowAddMeal] = useState(false);
   const [newMeal, setNewMeal] = useState({ name: "", price: "", category: "", image: "" });
   const [editingMeal, setEditingMeal] = useState(null);
@@ -31,6 +31,11 @@ function AdminDashboard() {
     e.preventDefault();
     if (!newRestaurant.name) {
       alert("Restaurant name is required");
+      return;
+    }
+
+    if (!newRestaurant.location || !newRestaurant.location.trim()) {
+      alert("Location is required");
       return;
     }
 
@@ -59,7 +64,7 @@ function AdminDashboard() {
         lng: lngNum || 0,
       };
       await dispatch(createRestaurant(restaurantData));
-      setNewRestaurant({ name: "", category: "", image: "", description: "", location: "Muscat", rating: "", services: [], lat: "", lng: "", isOpen: true });
+      setNewRestaurant({ name: "", category: "", image: "", description: "", location: "", rating: "", services: [], lat: "", lng: "", isOpen: true });
       setShowAddRestaurant(false);
     }
   };
@@ -86,6 +91,11 @@ function AdminDashboard() {
     e.preventDefault();
     if (!editingRestaurant.name) {
       alert("Restaurant name is required");
+      return;
+    }
+
+    if (!editingRestaurant.location || !editingRestaurant.location.trim()) {
+      alert("Location is required");
       return;
     }
 
@@ -262,6 +272,10 @@ function AdminDashboard() {
                 <Input type="textarea" placeholder="Restaurant description" value={newRestaurant.description} onChange={(e) => setNewRestaurant({ ...newRestaurant, description: e.target.value })} />
               </FormGroup>
               <FormGroup>
+                <Label>Location</Label>
+                <Input type="text" placeholder="e.g. Muscat, Salalah, Sohar" value={newRestaurant.location} onChange={(e) => setNewRestaurant({ ...newRestaurant, location: e.target.value })} required />
+              </FormGroup>
+              <FormGroup>
                 <Label>Rating</Label>
                 <Input type="number" min="1" max="5" step="0.1" placeholder="e.g. 4.5" value={newRestaurant.rating} onChange={(e) => setNewRestaurant({ ...newRestaurant, rating: e.target.value })} required />
               </FormGroup>
@@ -334,6 +348,10 @@ function AdminDashboard() {
               <FormGroup>
                 <Label>Description</Label>
                 <Input type="textarea" placeholder="Restaurant description" value={editingRestaurant.description || ""} onChange={(e) => setEditingRestaurant({ ...editingRestaurant, description: e.target.value })} />
+              </FormGroup>
+              <FormGroup>
+                <Label>Location</Label>
+                <Input type="text" placeholder="e.g. Muscat, Salalah, Sohar" value={editingRestaurant.location || ""} onChange={(e) => setEditingRestaurant({ ...editingRestaurant, location: e.target.value })} required />
               </FormGroup>
               <FormGroup>
                 <Label>Rating</Label>
