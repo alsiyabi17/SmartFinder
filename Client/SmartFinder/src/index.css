@@ -198,6 +198,7 @@ button, .btn {
   border-radius: var(--radius-md) !important;
   width: 100%;
   transition: all 0.2s ease;
+  margin-top: auto;
 }
 
 .btn-view-details:hover {
