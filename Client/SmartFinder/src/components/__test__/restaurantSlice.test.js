@@ -11,6 +11,7 @@ const test_state = {
     services: [],
     rating: 0,
     location: "All Locations",
+    status: "All",
   },
   favorites: [],
   loading: false,
